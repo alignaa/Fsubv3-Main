@@ -12,9 +12,9 @@ load_dotenv("config.env")
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
 
-APP_ID = int(os.getenv("APP_ID", "28653571"))
+APP_ID = int(os.getenv("APP_ID", "19712136"))
 
-API_HASH = os.getenv("API_HASH", "eca35c0338b15aa33cc2d5df4a5a7b65")
+API_HASH = os.getenv("API_HASH", "eb06d4abfb49dc3eeb1aeb98ae0f581e")
 
 CHANNEL_DB = int(os.getenv("CHANNEL_DB", ""))
 OWNER = os.getenv("OWNER", "excute7")
