@@ -1,0 +1,38 @@
+{
+  "name": "FORCE SUB - BOT",
+  "env": {
+    "BOT_TOKEN": {
+      "required": true
+    },
+    "ADMINS": {
+      "required": true
+    },
+    "CHANNEL_DB": {
+      "required": true
+    },
+    "DATABASE_TYPE": {
+      "description": "Isi sesuai Database yang kalian ingin isi.",
+      "value": "mongo/sql ( pilih salah satu )",
+      "required": true
+    },
+    "DB_URL": {
+      "description": "Isi Database sesuai type sql/mongo",
+      "value": "postgres://blabla:user@pw.db.elephantsql.com/blabla ( contoh )",
+      "required": true
+    },
+    "DB_NAME": {
+      "description": "Isi dengan Nama Database DISARANKAN ISI SESUAI USERNAME BOT KALIAN (Kosongkan jika ingin mengisi SQL)",
+      "required": true
+    },
+    "FORCE_SUB_1": {
+      "description": "Jika ingin lebih dari 1 button tambahkan value baru [ FORCE_SUB_2 ] (button unlimitid)",
+      "required": false
+    }
+  },
+  "formation": {
+    "worker": {
+      "quantity": 1,
+      "size": "eco"
+    }
+  }
+}
