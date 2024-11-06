@@ -7,8 +7,6 @@ from logging.handlers import RotatingFileHandler
 load_dotenv("config.env")
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
-APP_ID = int(os.getenv("APP_ID", "19712136"))
-API_HASH = os.getenv("API_HASH", "eb06d4abfb49dc3eeb1aeb98ae0f581e")
 CHANNEL_DB = int(os.getenv("CHANNEL_DB", ""))
 OWNER = os.getenv("OWNER", "excute7")
 PROTECT_CONTENT = strtobool(os.getenv("PROTECT_CONTENT", "True"))

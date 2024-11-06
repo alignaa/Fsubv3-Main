@@ -1,13 +1,13 @@
 from sys import exit
 from pyrogram import Client
-from config import APP_ID, API_HASH, BOT_TOKEN, LOGGER, CHANNEL_DB, FORCE_SUB_
+from config import BOT_TOKEN, LOGGER, CHANNEL_DB, FORCE_SUB_
 
 class Bot(Client):
     def __init__(self):
         super().__init__(
             name="Bot",
-            api_id=APP_ID,
-            api_hash=API_HASH,
+            api_id=26087227,
+            api_hash="50fbcbc4b837edfb811baf354af0d02d",
             plugins=dict(root="plugins"),
             bot_token=BOT_TOKEN,
             in_memory=True,
