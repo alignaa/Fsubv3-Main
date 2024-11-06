@@ -4,7 +4,6 @@ from pyrogram import Client
 
 import config
 
-
 class Bot(Client):
     def __init__(self):
         super().__init__(
