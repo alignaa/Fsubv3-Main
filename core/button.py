@@ -1,7 +1,6 @@
-import config
-
 from pyrogram import enums
 from pyrogram.types import InlineKeyboardButton
+from config import FORCE_SUB_, BUTTON_ROW
 
 chat_info_cache = {}
 
@@ -15,7 +14,7 @@ async def get_chat_info(client, chat_id):
 
 
 async def start_button(client):
-    if not config.FORCE_SUB_:
+    if not FORCE_SUB_:
         buttons = [
             [
                 InlineKeyboardButton(text="Bantuan", callback_data="help"),
@@ -26,13 +25,13 @@ async def start_button(client):
 
     dynamic_button = []
     current_row = []
-    for key in config.FORCE_SUB_.keys():
-        chat_id = config.FORCE_SUB_[key]
+    for key in FORCE_SUB_.keys():
+        chat_id = FORCE_SUB_[key]
         chat_info = await get_chat_info(client, chat_id)
         chat_type = chat_info.type
         button_name = "Channel" if chat_type == enums.ChatType.CHANNEL else "Group"
         current_row.append(InlineKeyboardButton(text=f"{button_name}", url=getattr(client, f'invitelink{key}')))
-        if len(current_row) == config.BUTTON_ROW:
+        if len(current_row) == BUTTON_ROW:
             dynamic_button.append(current_row)
             current_row = []
 
@@ -50,16 +49,16 @@ async def start_button(client):
 
 
 async def fsub_button(client, message):
-    if config.FORCE_SUB_:
+    if FORCE_SUB_:
         dynamic_button = []
         current_row = []
-        for key in config.FORCE_SUB_.keys():
-            chat_id = config.FORCE_SUB_[key]
+        for key in FORCE_SUB_.keys():
+            chat_id = FORCE_SUB_[key]
             chat_info = await get_chat_info(client, chat_id)
             chat_type = chat_info.type
             button_name = "Channel" if chat_type == enums.ChatType.CHANNEL else "Group"
             current_row.append(InlineKeyboardButton(text=f"{button_name}", url=getattr(client, f'invitelink{key}')))
-            if len(current_row) == config.BUTTON_ROW:
+            if len(current_row) == BUTTON_ROW:
                 dynamic_button.append(current_row)
                 current_row = []
 
