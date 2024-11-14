@@ -1,6 +1,7 @@
 tgcrypto
 pyrofork
 uvloop
+psycopg2-binary
 python-dotenv
 sqlalchemy==1.3.23
 pymongo==4.6.1
