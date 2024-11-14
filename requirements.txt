@@ -5,3 +5,8 @@ psycopg2-binary
 python-dotenv
 sqlalchemy==1.3.23
 pymongo==4.6.1
+gitpython
+heroku3
+feedparser
+Pyromod
+git+https://github.com/KurimuzonAkuma/pyrogram@dev
