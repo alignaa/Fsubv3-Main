@@ -8,11 +8,11 @@ load_dotenv("config.env")
 
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
 CHANNEL_DB = int(os.getenv("CHANNEL_DB", ""))
-OWNER = os.getenv("OWNER", "excute7")
+OWNER = os.getenv("OWNER", "ranszaz")
 PROTECT_CONTENT = strtobool(os.getenv("PROTECT_CONTENT", "True"))
-# HEROKU_APP_NAME = os.getenv("HEROKU_APP_NAME", None)
-# HEROKU_API_KEY = os.getenv("HEROKU_API_KEY", None)
-# UPSTREAM_BRANCH = os.getenv("UPSTREAM_BRANCH", "master")
+HEROKU_APP_NAME = os.getenv("HEROKU_APP_NAME", None)
+HEROKU_API_KEY = os.getenv("HEROKU_API_KEY", None)
+UPSTREAM_BRANCH = os.getenv("UPSTREAM_BRANCH", "master")
 # Database type
 DATABASE_TYPE = os.getenv("DATABASE_TYPE", "")
 # Database
