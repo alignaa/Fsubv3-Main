@@ -17,8 +17,8 @@ async def start_button(client):
     if not FORCE_SUB_:
         buttons = [
             [
-                InlineKeyboardButton(text="Bantuan", callback_data="help"),
-                InlineKeyboardButton(text="Tutup", callback_data="close"),
+                InlineKeyboardButton(text="ʙᴀɴᴛᴜᴀɴ", callback_data="help"),
+                InlineKeyboardButton(text="ᴄʟᴏꜱᴇ", callback_data="close"),
             ],
         ]
         return buttons
@@ -29,8 +29,8 @@ async def start_button(client):
         chat_id = FORCE_SUB_[key]
         chat_info = await get_chat_info(client, chat_id)
         chat_type = chat_info.type
-        button_name = "Channel" if chat_type == enums.ChatType.CHANNEL else "Group"
-        current_row.append(InlineKeyboardButton(text=f"{button_name}", url=getattr(client, f'invitelink{key}')))
+        button_name = "ᴄʜᴀɴɴᴇʟ" if chat_type == enums.ChatType.CHANNEL else "ᴄʜᴀɴɴᴇʟ"
+        current_row.append(InlineKeyboardButton(text=f"·ᴊᴏɪɴ {button_name}·", url=getattr(client, f'invitelink{key}')))
         if len(current_row) == BUTTON_ROW:
             dynamic_button.append(current_row)
             current_row = []
@@ -40,10 +40,10 @@ async def start_button(client):
 
     buttons = [
         [
-            InlineKeyboardButton(text="Bantuan", callback_data="help"),
+            InlineKeyboardButton(text="ʙᴀɴᴛᴜᴀɴ", callback_data="help"),
         ],
     ] + dynamic_button + [
-        [InlineKeyboardButton(text="Tutup", callback_data="close")],
+        [InlineKeyboardButton(text="ᴄʟᴏꜱᴇ", callback_data="close")],
     ]
     return buttons
 
@@ -56,8 +56,8 @@ async def fsub_button(client, message):
             chat_id = FORCE_SUB_[key]
             chat_info = await get_chat_info(client, chat_id)
             chat_type = chat_info.type
-            button_name = "Channel" if chat_type == enums.ChatType.CHANNEL else "Group"
-            current_row.append(InlineKeyboardButton(text=f"{button_name}", url=getattr(client, f'invitelink{key}')))
+            button_name = "ᴄʜᴀɴɴᴇʟ" if chat_type == enums.ChatType.CHANNEL else "ɢʀᴏᴜᴘ"
+            current_row.append(InlineKeyboardButton(text=f"·ᴊᴏɪɴ {button_name}·", url=getattr(client, f'invitelink{key}')))
             if len(current_row) == BUTTON_ROW:
                 dynamic_button.append(current_row)
                 current_row = []
@@ -68,7 +68,7 @@ async def fsub_button(client, message):
         try:
             dynamic_button.append([
                 InlineKeyboardButton(
-                    text="Coba Lagi",
+                    text="ᴄᴏʙᴀ ʟᴀɢɪ",
                     url=f"https://t.me/{client.username}?start={message.command[1]}",
                 )
             ])

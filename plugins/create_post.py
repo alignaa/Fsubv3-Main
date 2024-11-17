@@ -51,14 +51,14 @@ async def channel_post(client: Bot, message: Message):
         [
             [
                 InlineKeyboardButton(
-                    "Bagikan Link", url=f"https://telegram.me/share/url?url={link}"
+                    "ꜱʜᴀʀᴇ", url=f"https://telegram.me/share/url?url={link}"
                 )
             ]
         ]
     )
 
     await reply_text.edit(
-        f"Link: {link}",
+        f"ʟɪɴᴋ: {link}",
         reply_markup=reply_markup,
         disable_web_page_preview=True,
     )
@@ -84,7 +84,7 @@ async def new_post(client: Bot, message: Message):
         [
             [
                 InlineKeyboardButton(
-                    "Bagikan Link", url=f"https://telegram.me/share/url?url={link}"
+                    "ꜱʜᴀʀᴇ", url=f"https://telegram.me/share/url?url={link}"
                 )
             ]
         ]

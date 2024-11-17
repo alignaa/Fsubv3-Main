@@ -51,7 +51,7 @@ async def batch(c: Bot, message: Message):
         [
             [
                 InlineKeyboardButton(
-                    "Bagikan Link", url=f"https://telegram.me/share/url?url={link}"
+                    "ꜱʜᴀʀᴇ", url=f"https://telegram.me/share/url?url={link}"
                 )
             ]
         ]
