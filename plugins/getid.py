@@ -6,6 +6,7 @@ from pyrogram.types import Message
 
 from core.bot import Bot
 
+
 @Bot.on_message(filters.command("id") & filters.private)
 async def showid(client: Bot, message: Message):
     chat_type = message.chat.type
@@ -31,6 +32,7 @@ async def showid(client: Bot, message: Message):
                 f"<code>{file_info.file_id}</code>\n"
             )
         await message.reply_text(_id, quote=True)
+
 
 def get_file_id(msg: Message):
     if msg.media:

@@ -5,6 +5,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from pymongo import MongoClient
 from config import DATABASE_TYPE, DB_URL, DB_NAME
 
+
 # Database SQL
 if DATABASE_TYPE == 'sql':
     def start() -> scoped_session:
@@ -27,6 +28,7 @@ if DATABASE_TYPE == 'sql':
             self.user_name = user_name
 
     Broadcast.__table__.create(checkfirst=True)
+
 
 # Database mongo
 elif DATABASE_TYPE == 'mongo':
@@ -57,6 +59,7 @@ def full_userbase():
         user_docs = user_data.find()
         user_ids = [doc['_id'] for doc in user_docs]
         return user_ids
+
 
 def del_user(user_id: int):
     if DATABASE_TYPE == 'sql':

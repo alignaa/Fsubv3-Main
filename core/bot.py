@@ -1,18 +1,21 @@
 from sys import exit
+
 from pyrogram import Client
-from config import BOT_TOKEN, LOGGER, CHANNEL_DB, FORCE_SUB_
+
+import config
+
 
 class Bot(Client):
     def __init__(self):
         super().__init__(
             name="Bot",
-            api_id=26087227,
-            api_hash="50fbcbc4b837edfb811baf354af0d02d",
+            api_id=config.APP_ID,
+            api_hash=config.API_HASH,
             plugins=dict(root="plugins"),
-            bot_token=BOT_TOKEN,
+            bot_token=config.BOT_TOKEN,
             in_memory=True,
         )
-        self.LOGGER = LOGGER
+        self.LOGGER = config.LOGGER
 
     async def start(self):
         try:
@@ -28,7 +31,7 @@ class Bot(Client):
             self.LOGGER(__name__).warning(e)
             exit()
 
-        for key, channel_id in FORCE_SUB_.items():
+        for key, channel_id in config.FORCE_SUB_.items():
             try:
                 info = await self.get_chat(channel_id)
                 link = info.invite_link
@@ -50,7 +53,7 @@ class Bot(Client):
                 exit()
 
         try:
-            db_channel = await self.get_chat(CHANNEL_DB)
+            db_channel = await self.get_chat(config.CHANNEL_DB)
             self.db_channel = db_channel
             await self.send_message(chat_id=db_channel.id, text="Bot Aktif!\n\n")
             self.LOGGER(__name__).info(

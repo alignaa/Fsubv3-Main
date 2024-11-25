@@ -51,14 +51,14 @@ async def channel_post(client: Bot, message: Message):
         [
             [
                 InlineKeyboardButton(
-                    "ꜱʜᴀʀᴇ", url=f"https://telegram.me/share/url?url={link}"
+                    "Bagikan Link", url=f"https://telegram.me/share/url?url={link}"
                 )
             ]
         ]
     )
 
     await reply_text.edit(
-        f"ʟɪɴᴋ: {link}",
+        f"Link: {link}",
         reply_markup=reply_markup,
         disable_web_page_preview=True,
     )
@@ -72,6 +72,7 @@ async def channel_post(client: Bot, message: Message):
         except Exception:
             pass
 
+
 @Bot.on_message(filters.channel & filters.incoming & filters.chat(CHANNEL_DB))
 async def new_post(client: Bot, message: Message):
     if DISABLE_CHANNEL_BUTTON:
@@ -84,7 +85,7 @@ async def new_post(client: Bot, message: Message):
         [
             [
                 InlineKeyboardButton(
-                    "ꜱʜᴀʀᴇ", url=f"https://telegram.me/share/url?url={link}"
+                    "Bagikan Link", url=f"https://telegram.me/share/url?url={link}"
                 )
             ]
         ]

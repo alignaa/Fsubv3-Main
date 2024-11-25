@@ -1,5 +1,5 @@
 import os
-from config import ADMINS
+import config
 
 from pyrogram import filters
 from pyrogram.types import Message
@@ -7,7 +7,9 @@ from dotenv import load_dotenv
 
 from core.bot import Bot
 
-@Bot.on_message(filters.command("env") & filters.user(ADMINS) & filters.private)
+
+
+@Bot.on_message(filters.command("env") & filters.user(config.ADMINS) & filters.private)
 async def show_env_info(client: Bot, message: Message):
     env_vars_to_show = [
         "APP_ID",

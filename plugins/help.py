@@ -1,7 +1,9 @@
 from core.bot import Bot
+
 from pyrogram import filters
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, Message
 from pyrogram.types import InlineKeyboardButton
+
 
 class Data:
     HELP = """
@@ -20,20 +22,20 @@ class Data:
 """
 
     close = [
-        [InlineKeyboardButton("ᴄʟᴏꜱᴇ", callback_data="close")]
+        [InlineKeyboardButton("Tutup", callback_data="close")]
     ]
 
     mbuttons = [
         [
-            InlineKeyboardButton("ʙᴀɴᴛᴜᴀɴ", callback_data="help"),
-            InlineKeyboardButton("ᴄʟᴏꜱᴇ", callback_data="close")
+            InlineKeyboardButton("Bantuan", callback_data="help"),
+            InlineKeyboardButton("Tutup", callback_data="close")
         ],
     ]
 
     buttons = [
         [
-            InlineKeyboardButton("ᴛᴇɴᴛᴀɴɢ", callback_data="about"),
-            InlineKeyboardButton("ᴄʟᴏꜱᴇ", callback_data="close")
+            InlineKeyboardButton("Tentang", callback_data="about"),
+            InlineKeyboardButton("Tutup", callback_data="close")
         ],
     ]
 
@@ -45,6 +47,7 @@ class Data:
   Re-build From: <a href='https://github.com/Ling-ex/File-Haram'>File-Sharing</a>
 """
 
+
 @Bot.on_message(filters.private & filters.incoming & filters.command("help"))
 async def help(c: Bot, m: Message):
     await c.send_message(
@@ -53,6 +56,7 @@ async def help(c: Bot, m: Message):
         disable_web_page_preview=True,
         reply_markup=InlineKeyboardMarkup(Data.buttons),
     )
+
 
 @Bot.on_callback_query()
 async def handler(c: Bot, query: CallbackQuery):
