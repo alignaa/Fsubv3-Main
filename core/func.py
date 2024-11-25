@@ -58,25 +58,37 @@ async def get_messages(c: Client, message_ids):
 
 
 async def get_message_id(c: Client, m: types.Message):
-    if (
-        m.forward_from_chat
-        and m.forward_from_chat.id == c.db_channel.id
-    ):
+    # Cek apakah pesan diteruskan dari channel target
+    if m.forward_from_chat and m.forward_from_chat.id == c.db_channel.id:
         return m.forward_from_message_id
-    elif m.forward_from_chat or m.forward_sender_name or not m.text:
-        return 0
-    else:
-        pattern = "https://t.me/(?:c/)?(.*)/(\\d+)"
-        matches = re.match(pattern, m.text)
-        if not matches:
-            return 0
-        channel_id = matches.group(1)
-        msg_id = int(matches.group(2))
-        if channel_id.isdigit():
-            if f"-100{channel_id}" == str(c.db_channel.id):
-                return msg_id
-        elif channel_id == c.db_channel.username:
+
+    # Jika bukan teks atau diteruskan dari tempat lain
+    if m.forward_from_chat or m.forward_sender_name or not m.text:
+        return None
+
+    # Pola regex untuk tautan Telegram
+    pattern = r"https://t.me/(?:c/)?([\w\d_]+)/(\d+)"
+    matches = re.match(pattern, m.text)
+
+    # Jika regex tidak cocok
+    if not matches:
+        return None
+
+    # Ekstraksi hasil regex
+    channel_id = matches.group(1)
+    msg_id = int(matches.group(2))
+
+    # Jika channel ID berupa angka, cocokkan dengan db_channel.id
+    if channel_id.isdigit():
+        if f"-100{channel_id}" == str(c.db_channel.id):
             return msg_id
+
+    # Jika channel ID berupa username, cocokkan dengan db_channel.username
+    elif channel_id == c.db_channel.username:
+        return msg_id
+
+    # Jika tidak cocok
+    return None
 
 
 is_fsubs = filters.create(subscribed)
