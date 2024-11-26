@@ -1,10 +1,10 @@
 from config import *
-from pyrogram import filters
+from pyrogram import filters, Client
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from core.bot import Bot
 from core.func import *
 
-@Bot.on_message(filters.private & filters.user(ADMINS) & filters.command("batch"))
+@Client.on_message(filters.private & filters.user(ADMINS) & filters.command("batch"))
 async def batch(client: Client, message: Message):
     # Minta pengguna mengirim pesan pertama
     await message.reply(
