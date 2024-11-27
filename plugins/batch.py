@@ -14,7 +14,7 @@ async def batch(c: Bot, message: Message):
                 text="Teruskan pesan pertama atau paste link post dari CHANNEL_DB",
                 chat_id=message.from_user.id,
                 filters=(filters.forwarded | (filters.text & ~filters.forwarded)),
-                timeout=60,
+                timeout=120,
             )
         except Exception:
             return
@@ -33,7 +33,7 @@ async def batch(c: Bot, message: Message):
                 text="Teruskan pesan akhir atau paste link post dari CHANNEL_DB",
                 chat_id=message.from_user.id,
                 filters=(filters.forwarded | (filters.text & ~filters.forwarded)),
-                timeout=60,
+                timeout=120,
             )
         except Exception:
             return
