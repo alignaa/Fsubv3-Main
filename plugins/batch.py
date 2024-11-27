@@ -3,7 +3,7 @@ from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 
 from core.bot import Bot
-from core import func
+from core.func import *
 
 async def get_valid_message(c, user_id, prompt_text):
     """
