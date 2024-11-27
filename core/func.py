@@ -57,25 +57,26 @@ async def get_messages(c: Client, message_ids):
     return messages
 
 
-async def get_message_id(client, message):
+async def get_message_id(c: Client, m: types.Message):
     if (
-        message.forward_from_chat
-        and message.forward_from_chat.id == client.db_channel.id
+        m.forward_from_chat
+        and m.forward_from_chat.id == c.db_channel.id
     ):
-        return message.forward_from_message_id
-    elif message.forward_from_chat or message.forward_sender_name or not message.text:
+        return m.forward_from_message_id
+    elif m.forward_from_chat or m.forward_sender_name or not m.text:
         return 0
     else:
         pattern = "https://t.me/(?:c/)?(.*)/(\\d+)"
-        matches = re.match(pattern, message.text)
+        matches = re.match(pattern, m.text)
         if not matches:
             return 0
         channel_id = matches.group(1)
         msg_id = int(matches.group(2))
         if channel_id.isdigit():
-            if f"-100{channel_id}" == str(client.db_channel.id):
+            if f"-100{channel_id}" == str(c.db_channel.id):
                 return msg_id
-        elif channel_id == client.db_channel.username:
+        elif channel_id == c.db_channel.username:
             return msg_id
+
 
 is_fsubs = filters.create(subscribed)
