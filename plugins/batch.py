@@ -5,65 +5,50 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from core.bot import Bot
 from core.func import *
 
-async def get_valid_message(c, user_id, prompt_text):
-    """
-    Fungsi untuk meminta pesan yang valid dari pengguna.
-    """
+@Bot.on_message(filters.private & filters.user(ADMINS) & filters.command("batch"))
+async def batch(c: Bot, message: Message):
     try:
-        user_message = await c.ask(
-            text=prompt_text,
-            chat_id=user_id,
+        # Meminta pesan pertama
+        first_message = await c.ask(
+            text="Teruskan pesan pertama atau paste link post dari CHANNEL_DB",
+            chat_id=message.from_user.id,
             filters=(filters.forwarded | (filters.text & ~filters.forwarded)),
             timeout=60,
         )
-        msg_id = await get_message_id(c, user_message)
-        if not msg_id:
-            await user_message.reply("Error! Pesan tidak valid. Silakan coba lagi.", quote=True)
-            return None
-        return msg_id
-    except Exception:
-        return None
-
-
-@Bot.on_message(filters.private & filters.user(config.ADMINS) & filters.command("batch"))
-async def generate_link_handler(c, message):
-    """
-    Handler utama untuk menghasilkan link berdasarkan dua pesan.
-    """
-    user_id = message.from_user.id
-
-    # Meminta pesan pertama
-    first_prompt = "Teruskan pesan pertama atau paste link post dari CHANNEL_DB:"
-    f_msg_id = await get_valid_message(c, user_id, first_prompt)
-    if not f_msg_id:
-        return await message.reply("Gagal mendapatkan pesan pertama. Proses dihentikan.")
-
-    # Meminta pesan kedua
-    second_prompt = "Teruskan pesan akhir atau paste link post dari CHANNEL_DB:"
-    s_msg_id = await get_valid_message(c, user_id, second_prompt)
-    if not s_msg_id:
-        return await message.reply("Gagal mendapatkan pesan kedua. Proses dihentikan.")
-
-    # Membuat string dan encoding ke Base64
-    try:
+        f_msg_id = await get_message_id(c, first_message)
+        if not f_msg_id:
+            return await first_message.reply_text("Pesan pertama tidak valid.", quote=True)
+        
+        # Meminta pesan akhir
+        second_message = await c.ask(
+            text="Teruskan pesan akhir atau paste link post dari CHANNEL_DB",
+            chat_id=message.from_user.id,
+            filters=(filters.forwarded | (filters.text & ~filters.forwarded)),
+            timeout=60,
+        )
+        s_msg_id = await get_message_id(c, second_message)
+        if not s_msg_id:
+            return await second_message.reply_text("Pesan akhir tidak valid.", quote=True)
+        
+        # Membuat link
         string = f"get-{f_msg_id * abs(c.db_channel.id)}-{s_msg_id * abs(c.db_channel.id)}"
         base64_string = await encode(string)
         link = f"https://t.me/{c.username}?start={base64_string}"
-    except Exception as e:
-        return await message.reply(f"Terjadi kesalahan saat membuat link: {e}")
-
-    # Mengirimkan link ke pengguna
-    reply_markup = InlineKeyboardMarkup(
-        [
+        reply_markup = InlineKeyboardMarkup(
             [
-                InlineKeyboardButton(
-                    "Bagikan Link", url=f"https://telegram.me/share/url?url={link}"
-                )
+                [
+                    InlineKeyboardButton(
+                        "Bagikan Link", url=f"https://telegram.me/share/url?url={link}"
+                    )
+                ]
             ]
-        ]
-    )
-    await message.reply_text(
-        f"Link: {link}",
-        quote=True,
-        reply_markup=reply_markup,
-    )
+        )
+        await second_message.reply_text(
+            f"Link: {link}",
+            quote=True,
+            reply_markup=reply_markup,
+        )
+    
+    except Exception:
+        await message.reply_text("Waktu habis atau terjadi kesalahan.", quote=True)
+
