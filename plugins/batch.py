@@ -17,7 +17,7 @@ async def batch(c: Bot, message: Message):
         )
         f_msg_id = await get_message_id(c, first_message)
         if not f_msg_id:
-            return await first_message.reply_text("Pesan pertama tidak valid.", quote=True)
+            raise ValueError("Pesan pertama tidak valid.")
         
         # Meminta pesan akhir
         second_message = await c.ask(
@@ -28,7 +28,7 @@ async def batch(c: Bot, message: Message):
         )
         s_msg_id = await get_message_id(c, second_message)
         if not s_msg_id:
-            return await second_message.reply_text("Pesan akhir tidak valid.", quote=True)
+            raise ValueError("Pesan akhir tidak valid.")
         
         # Membuat link
         string = f"get-{f_msg_id * abs(c.db_channel.id)}-{s_msg_id * abs(c.db_channel.id)}"
@@ -49,6 +49,7 @@ async def batch(c: Bot, message: Message):
             reply_markup=reply_markup,
         )
     
+    except ValueError as e:
+        await message.reply_text(f"Error: {e}", quote=True)
     except Exception:
         await message.reply_text("Waktu habis atau terjadi kesalahan.", quote=True)
-
