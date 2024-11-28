@@ -7,35 +7,44 @@ from core.func import *
 
 @Bot.on_message(filters.private & filters.user(ADMINS) & filters.command("batch"))
 async def batch(c: Bot, message: Message):
-    # Meminta pesan pertama
-    await message.reply_text(
-        "Teruskan pesan pertama atau paste link post dari CHANNEL_DB.",
-        reply_markup=ReplyKeyboardRemove(),
-    )
-    try:
-        first_message = await c.listen(message.chat.id, timeout=60)
+    while True:
+        try:
+            first_message = await c.ask(
+                text="Teruskan pesan pertama atau paste link post dari CHANNEL_DB",
+                chat_id=message.from_user.id,
+                filters=(filters.forwarded | (filters.text & ~filters.forwarded)),
+                timeout=60,
+            )
+        except Exception:
+            return
         f_msg_id = await get_message_id(c, first_message)
-        if not f_msg_id:
-            await first_message.reply_text("Pesan pertama tidak valid.", quote=True)
-            return  # Akhiri fungsi jika pesan pertama tidak valid
-    except TimeoutError:
-        return await message.reply_text("Waktu habis. Silakan coba lagi.", quote=True)
-    
-    # Meminta pesan akhir
-    await message.reply_text(
-        "Teruskan pesan akhir atau paste link post dari CHANNEL_DB.",
-        reply_markup=ReplyKeyboardRemove(),
-    )
-    try:
-        second_message = await c.listen(message.chat.id, timeout=60)
-        s_msg_id = await get_message_id(c, second_message)
-        if not s_msg_id:
-            await second_message.reply_text("Pesan akhir tidak valid.", quote=True)
-            return  # Akhiri fungsi jika pesan akhir tidak valid
-    except TimeoutError:
-        return await message.reply_text("Waktu habis. Silakan coba lagi.", quote=True)
+        if f_msg_id:
+            break
+        await first_message.reply(
+            "Error!",
+            quote=True,
+        )
+        continue
 
-    # Membuat link
+    while True:
+        try:
+            second_message = await c.ask(
+                text="Teruskan pesan akhir atau paste link post dari CHANNEL_DB",
+                chat_id=message.from_user.id,
+                filters=(filters.forwarded | (filters.text & ~filters.forwarded)),
+                timeout=60,
+            )
+        except Exception:
+            return
+        s_msg_id = await get_message_id(c, second_message)
+        if s_msg_id:
+            break
+        await second_message.reply(
+            "Error!",
+            quote=True,
+        )
+        continue
+
     string = f"get-{f_msg_id * abs(c.db_channel.id)}-{s_msg_id * abs(c.db_channel.id)}"
     base64_string = await encode(string)
     link = f"https://t.me/{c.username}?start={base64_string}"
