@@ -1,7 +1,7 @@
-import config
+
 from pyrogram import filters
 from pyrogram.types import *
-
+from config import *
 from core.bot import Bot
 from core.func import *
 
