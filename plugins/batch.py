@@ -1,11 +1,11 @@
 
 from pyrogram import filters
 from pyrogram.types import *
-from config import *
+import config 
 from core.bot import Bot
 from core.func import *
 
-@Bot.on_message(filters.private & filters.user(ADMINS) & filters.command("batch"))
+@Bot.on_message(filters.command("broadcast") & filters.user(config.ADMINS))
 async def batch(c: Bot, message: Message):
     while True:
         try:
