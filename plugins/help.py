@@ -1,5 +1,5 @@
 from core.bot import Bot
-
+import config 
 from pyrogram import filters
 from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, Message
 from pyrogram.types import InlineKeyboardButton
@@ -45,6 +45,8 @@ class Data:
   Framework: <a href='https://docs.pyrofork.org'>pyrofork</a>
   Re-Code From: <a href='https://github.com/mrismanaziz/File-Sharing-Man'>File-Sharing-Man</a>
   Re-build From: <a href='https://github.com/Ling-ex/File-Haram'>File-Sharing</a>
+
+  owner = {}
 """
 
 
@@ -63,8 +65,15 @@ async def handler(c: Bot, query: CallbackQuery):
     data = query.data
     if data == "about":
         try:
+            owner = config.ADMINS[0]
+
+            user = await c.get_users(owner)
+            owner_name = user.mention if user else "Owner Not Found"
+
+            about = Data.ABOUT.format(c.username, owner_name)
+
             await query.message.edit_text(
-                text=Data.ABOUT.format(c.username),
+                text=about,
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(Data.mbuttons),
             )
